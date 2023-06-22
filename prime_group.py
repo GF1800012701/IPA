@@ -39,29 +39,20 @@ class PrimeGroup:
 
     def update_list(self, list, a):
         mid_index = len(list) // 2
+        left_list = [self.divide(item, a) for item in list[:mid_index]]
+        right_list = [self.multiply(item, a) for item in list[mid_index:]]
+        return [self.add(item1, item2) for item1, item2 in zip(left_list, right_list)]
+    
+    def update_ulist(self, list, a):
+        mid_index = len(list) // 2
         left_list = [self.multiply(item, a) for item in list[:mid_index]]
         right_list = [self.divide(item, a) for item in list[mid_index:]]
-        return [self.add(item1, item2) for item1, item2 in zip(left_list, right_list)]
+        return [self.add(item1, item2) for item1, item2 in zip(left_list, right_list)]        
 
 
 if __name__ == "__main__":
     # 创建一个 101 阶素数群的实例
-    prime_Group = PrimeGroup(101)
+    prime_Group = PrimeGroup(7)
 
-    # 测试加法
-    result = prime_Group.add(200, 300)
-    print("200 + 300 =", result)
-
-    # 测试减法
-    result = prime_Group.subtract(80, 90)
-    print("80 - 90 =", result)
-
-    # 测试乘法
-    result = prime_Group.multiply(5, 70)
-    print("5 * 70 =", result)
-
-    # 测试除法
-    result = prime_Group.divide(80, 4)
-    print("80 / 4 =", result)
-
-#如何在python中生成一个大于1 小于p的整数随机数？如何生成这样的随机数的list，需要指定长度l？
+    print(prime_Group.divide(3, 4))
+    print(prime_Group.divide(6, 4))

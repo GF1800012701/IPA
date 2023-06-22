@@ -18,12 +18,13 @@ class Verifier:
         self.g = self.group.update_list(self.g, a)
         self.y = self.group.update_list(self.y, a)
 
-        self.print_status("challenge")
+        #self.print_status("challenge: " + str(a))
         return (a, self.c, self.v, self.g, self.y)
 
     def final_verify(self, final_tuple):
         u = final_tuple[0]
-        if self.group.multiply(u, self.g[0]) == c and self.group.multiply(u, self.y[0]) == v :
+        #self.print_status("final_verify: " + str(u))
+        if self.group.multiply(u, self.g[0]) == self.c and self.group.multiply(u, self.y[0]) == self.v :
             print("True!")
         else:
             print("False!")
@@ -49,7 +50,7 @@ class Prover:
     
     def one_prove(self):
         length = len(self.u)
-        print("length", length)
+        #print("length", length)
         
         if length == 1:
             return (self.u)
@@ -66,7 +67,7 @@ class Prover:
             vl = self.group.inner_product(ul, yr)
             vr = self.group.inner_product(ur, yl)
 
-            self.print_status("one_prove")
+            #self.print_status("one_prove")
             return (cl, cr, vl, vr)
 
     def update(self, update_tuple):
@@ -75,8 +76,8 @@ class Prover:
         self.v = v
         self.g = g
         self.y = y
-        self.u = self.group.update_list(self.u, a)
-        self.print_status("update")
+        self.u = self.group.update_ulist(self.u, a)
+        #self.print_status("update")
         return
 
     def print_status(self, str):
@@ -98,13 +99,12 @@ if __name__ == "__main__":
     # start
     while True:
         cv_tuple = prover.one_prove()
-        print("cv_tuple : ", cv_tuple)
+        #print("cv_tuple : ", cv_tuple)
         if len(cv_tuple) == 1:
-            
             verifier.final_verify(cv_tuple)
             break
         update_tuple = verifier.challenge(cv_tuple)
-        print("update_tuple : ", update_tuple)
+        #print("update_tuple : ", update_tuple)
         prover.update(update_tuple)
 
 
